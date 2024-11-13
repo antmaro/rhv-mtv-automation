@@ -1,0 +1,17 @@
+---
+name: Get all VMs ID from RHV
+hosts: localhost
+
+tasks:
+
+    - name: Get VM information from RHV
+      ovirt.ovirt.ovirt_vms_info:
+      register: rhv_vms
+
+    - name: Register all VM IDs
+      set_fact:
+        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
+
+    - name: Display VM IDs
+      debug:
+        var: vm_ids
