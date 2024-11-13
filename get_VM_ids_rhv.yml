@@ -16,11 +16,15 @@
       ovirt.ovirt.ovirt_vm_info:
         auth: "{{ ovirt_auth }}"
       register: rhv_vms
+    
+    - name: Show registered variable
+      ansible.builtin.debug:
+        var: rhv_vms 
 
     - name: Register all VM IDs
-      set_fact:
+      ansible.builtin.set_fact:
         vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
 
     - name: Display VM IDs
-      debug:
+      ansible.builtin.debug:
         var: vm_ids
