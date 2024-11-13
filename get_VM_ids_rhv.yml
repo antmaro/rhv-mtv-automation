@@ -5,6 +5,7 @@
   tasks:
     - name: Get VM information from RHV
       ovirt.ovirt.ovirt_vm_info:
+        auth: "{{ ovirt_auth }}"
       register: rhv_vms
 
     - name: Register all VM IDs
