@@ -1,0 +1,33 @@
+---
+- name: Get namespaces from OCP
+  hosts: localhost
+
+  tasks:
+    - name: Get Cluster information
+      kubernetes.core.k8s_cluster_info:
+      register: api_status
+
+    - name: Show var
+      ansible.builtin.debug:
+        var: api_status
+
+    - name: Get Pods from aap namespace
+      kubernetes.core.k8s_info:
+        kind: Pod
+        namespace: aap
+      register: pods_aap
+
+    - name: Show the list of pods from aap namespace
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ pods_aap | json_query('resources[*].metadata.name') }}"
+
+    - name: Get all namespaces
+      kubernetes.core.k8s_info:
+        kind: Namespace
+      register: var_namespace
+
+    - name: Show the list of namespaces
+      ansible.builtin.debug:
+        var: item
+      loop: "{{ var_namespace | json_query('resources[*].metadata.name') }}"

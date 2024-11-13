@@ -1,0 +1,52 @@
+---
+- name: Get info about RHV environment
+  hosts: localhost
+  
+  pre_tasks:
+    - name: Login to RHV
+      ovirt.ovirt.ovirt_auth:
+        hostname: https://infraneptune.ddns.net/ovirt-engine/api
+        username: admin@internal
+        password: linux123
+        insecure: true
+  
+  tasks:
+    - name: Gather Datacenter information 
+      ovirt.ovirt.ovirt_datacenter_info:
+        auth: "{{ ovirt_auth }}"
+      register: datacenter_info
+
+    - name: Show datacenter info
+      ansible.builtin.debug:
+        var: datacenter_info
+
+    - name: Gather Networking information 
+      ovirt.ovirt.ovirt_network_info:
+        auth: "{{ ovirt_auth }}"
+      register: datacenter_network_info
+
+    - name: Show Networking info
+      ansible.builtin.debug:
+        var: datacenter_network_info
+
+    - name: Gather Storage Domain information 
+      ovirt.ovirt.ovirt_storage_domain_info:
+        auth: "{{ ovirt_auth }}"
+      register: datacenter_storage_domain_info
+
+    - name: Show Storage Domain info
+      ansible.builtin.debug:
+        var: datacenter_storage_domain_info
+
+    - name: Gather Storage VM information 
+      ovirt.ovirt.ovirt_storage_vm_info:
+        auth: "{{ ovirt_auth }}"
+        unregistered: true
+        storage_domain: sd1
+      register: datacenter_storage_VM_info
+
+    - name: Show Storage Domain info
+      ansible.builtin.debug:
+        msg: "{{ datacenter_storage_VM_info.ovirt_storage_vms }}"
+
+
