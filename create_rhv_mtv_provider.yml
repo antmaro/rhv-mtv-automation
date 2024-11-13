@@ -19,7 +19,7 @@
       redhat.openshift.k8s:
         state: present
         definition:
-          apiVersion: v1
+          #apiVersion: 'v1'
           kind: Secret
           metadata:
             name: rhv-secret
