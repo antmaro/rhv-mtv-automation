@@ -3,3 +3,4 @@ collections:
     - name: ovirt.ovirt
     - name: kubernetes.core
     - name: community.general
+    - name: redhat.openshift

@@ -1,0 +1,43 @@
+---
+- name: Create the RHV provider for MTV
+  hosts: localhost
+  vars:
+    provider_name: rhv-provider
+    provider_namespace: openshift-mtv
+
+  tasks:
+
+    - name: Create a Secret manifest for the RHV provider
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: rhv-secret
+            namespace: "{{ provider_namespace }}"
+            labels:
+              createdForProviderType: ovirt
+              createdForResourceType: providers
+          type: Opaque
+          stringData:
+            user: admin@internal
+            password: linux123
+            insecureSkipVerify: true
+            url: https://infraneptune.ddns.net/ovirt-engine/api
+
+    - name: Create the RHV provider
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: forklift.konveyor.io/v1beta1
+          kind: Provider
+          metadata:
+            name: "{{ provider_name }}"
+            namespace: "{{ provider_namespace }}"
+          spec:
+            type: ovirt
+            url: https://infraneptune.ddns.net/ovirt-engine/api
+            secret:
+              name: rhv-secret
+              namespace: "{{ provider_namespace }}"
