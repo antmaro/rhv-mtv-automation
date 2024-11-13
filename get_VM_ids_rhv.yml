@@ -4,7 +4,7 @@
 
   #This info is passed from credential in AAP
   pre_tasks:
-    - name: Login to RHV
+    - name: Log in to RHV
       ovirt.ovirt.ovirt_auth:
         hostname: "{{ rhv_api }}"
         username: "{{ rhv_user }}"
@@ -14,6 +14,8 @@
   tasks:
     - name: Get VM information from RHV
       ovirt.ovirt.ovirt_vm_info:
+        #pattern: cluster=MTV and Storage=sd1 <-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+        #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: rhv_vms
     
@@ -28,3 +30,5 @@
     - name: Display VM IDs
       ansible.builtin.debug:
         var: vm_ids
+    # Get the info about Storage Domains
+    - name:
