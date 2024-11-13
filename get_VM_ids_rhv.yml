@@ -4,7 +4,7 @@
 
   tasks:
     - name: Get VM information from RHV
-      ovirt.ovirt.ovirt_vms_info:
+      ovirt.ovirt.ovirt_vm_info:
       register: rhv_vms
 
     - name: Register all VM IDs
