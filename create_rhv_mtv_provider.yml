@@ -31,7 +31,7 @@
           stringData:
             user: admin@internal
             password: linux123
-            insecureSkipVerify: true
+            insecureSkipVerify: "true"
             url: 'https://infraneptune.ddns.net/ovirt-engine/api'
 
     - name: Create the RHV provider
