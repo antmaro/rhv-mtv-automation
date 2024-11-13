@@ -2,12 +2,13 @@
 - name: Get info about RHV environment
   hosts: localhost
   
+  # Vars need to pass from job template or any alternative method
   pre_tasks:
     - name: Login to RHV
       ovirt.ovirt.ovirt_auth:
-        hostname: https://infraneptune.ddns.net/ovirt-engine/api
-        username: admin@internal
-        password: linux123
+        hostname: "{{ rhv_api }}"
+        username: "{{ rhv_user }}"
+        password: "{{ rhv_password }}"
         insecure: true
   
   tasks:
