@@ -5,7 +5,7 @@ The goal is to automate the following tasks:
 - [x] Create a secret
 - [x] Create the provider
 - [ ] Create the storage and network maps
-- [ ] Create the virt plan
+- [x] Create the virt plan (providing the IDs of the VMs)
 - [ ] Create the Migration manifest to run the plan
 - [ ] others ...
 
