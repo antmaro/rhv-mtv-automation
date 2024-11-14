@@ -42,14 +42,14 @@
           apiVersion: forklift.konveyor.io/v1beta1
           kind: StorageMap
           metadata:
-            name: "{{ storagemap_name }}"
+            name: "{{ storage_map_name }}"
             namespace: openshift-mtv
           spec:
             map:
               - destination:
                   storageClass: nfs-storage
                 source:
-                  id: "{{ storage_domain_id[0] }}"
+                  id: "{{ storage_domain_id[1] }}"
               # You can also have multiple sources 
               # - destination:
               #     storageClass: nfs-storage
