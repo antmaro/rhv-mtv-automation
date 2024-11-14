@@ -26,9 +26,13 @@
       ansible.builtin.debug:
         var: storage_domains
 
-    # - name: Register all VM IDs
-    #   ansible.builtin.set_fact:
-    #     vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
+    - name: Register the storage domain
+      ansible.builtin.set_fact:
+        storage_domain_id: "{{ storage_domains.ovirt_storage_domains | map(attribute='id') | list }}"
+
+    - name: Display Storage domain ID
+      ansible.builtin.debug:
+        var: storage_domain_id
 
     # - name: Register all VM names
     #   ansible.builtin.set_fact:
