@@ -25,7 +25,7 @@
 
     - name: Register all VM IDs
       ansible.builtin.set_fact:
-        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
+        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='name') | list }}"
 
     - name: Display VM IDs
       ansible.builtin.debug:
