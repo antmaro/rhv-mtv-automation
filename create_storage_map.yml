@@ -16,7 +16,7 @@
 
   tasks:
     - name: Get info about Storage Domains
-      ovirt.ovirt.ovirt_domain_info:
+      ovirt.ovirt.ovirt_storage_domain_info:
         #pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
