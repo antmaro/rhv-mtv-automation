@@ -17,7 +17,7 @@
   tasks:
     - name: Get VM information from RHV
       ovirt.ovirt.ovirt_vm_info:
-        #pattern: cluster=MTV and Storage=sd1 <-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+        pattern: cluster=MTV and Storage=sd1 <-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: rhv_vms
@@ -28,7 +28,7 @@
 
     - name: Register all VM IDs
       ansible.builtin.set_fact:
-        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='name') | list }}"
+        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
 
     - name: Display VM IDs
       ansible.builtin.debug:
