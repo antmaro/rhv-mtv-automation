@@ -38,7 +38,7 @@
 
     - name: Display vms for plan spec
       ansible.builtin.debug:
-        var: vm_for_plan_spec
+        var: vms_for_plan_spec
 
     # Get the info about Storage Domains
     # - name:
