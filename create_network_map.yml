@@ -21,7 +21,7 @@
         #pattern: cluster=MTV and network=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
-      register: network_domains
+      register: network_domain
     
     - name: Show registered variable
       ansible.builtin.debug:
