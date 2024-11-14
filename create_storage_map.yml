@@ -60,7 +60,7 @@
                 name: host
                 namespace: openshift-mtv
               source:
-                name: vmware
+                name: "{{ provider_name }}"
                 namespace: openshift-mtv
     # - name: Register all VM names
     #   ansible.builtin.set_fact:
