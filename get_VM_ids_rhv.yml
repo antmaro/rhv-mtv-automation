@@ -30,5 +30,15 @@
     - name: Display VM IDs
       ansible.builtin.debug:
         var: vm_ids
+  
+    - name: Prepare VMs for Plan spec
+      ansible.builtin.set_fact:
+        vms_for_plan_spec: "{{ vms_for_plan_spec | default([]) + [{'hooks': [], 'id': item}] }}"
+      loop: "{{ vm_ids }}"
+
+    - name: Display vms for plan spec
+      ansible.builtin.debug:
+        var: vm_for_plan_spec
+
     # Get the info about Storage Domains
     # - name:
