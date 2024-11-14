@@ -4,6 +4,7 @@
   vars:
     provider_name: rhv-provider
     provider_namespace: openshift-mtv
+    storage_map_name: rhv-to-nfs
 
   #This vars can be passed from variables in AAP
   pre_tasks:
@@ -34,6 +35,33 @@
       ansible.builtin.debug:
         var: storage_domain_id
 
+    - name: Create or update a StorageMap
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: forklift.konveyor.io/v1beta1
+          kind: StorageMap
+          metadata:
+            name: "{{ storagemap_name }}"
+            namespace: openshift-mtv
+          spec:
+            map:
+              - destination:
+                  storageClass: nfs-storage
+                source:
+                  id: "{{ storage_domain_id[0] }}"
+              # You can also have multiple sources 
+              # - destination:
+              #     storageClass: nfs-storage
+              #   source:
+              #     id: "{{ datastore_id }}"
+            provider:
+              destination:
+                name: host
+                namespace: openshift-mtv
+              source:
+                name: vmware
+                namespace: openshift-mtv
     # - name: Register all VM names
     #   ansible.builtin.set_fact:
     #     vm_name: "{{ rhv_vms.ovirt_vms | map(attribute='name') | list }}"
