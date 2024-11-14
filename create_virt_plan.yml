@@ -1,8 +1,11 @@
 ---
 - name: Get all VMs ID from RHV
   hosts: localhost
+  vars:
+    provider_name: rhv-provider
+    provider_namespace: openshift-mtv
 
-  #This info is passed from credential in AAP
+  #This vars can be passed from variables in AAP
   pre_tasks:
     - name: Log in to RHV
       ovirt.ovirt.ovirt_auth:
@@ -42,3 +45,31 @@
 
     # Get the info about Storage Domains
     # - name:
+    - name: Create the RHV provider
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: forklift.konveyor.io/v1beta1
+          kind: Plan
+          metadata:
+            name: Plan-Ansible
+            namespace: "{{ provider_namespace }}"
+            preserveClusterCpuModel: true 
+          spec:
+            warm: false 
+            provider:
+              source:
+                name: "{{ provider_name }}"
+                namespace: "{{ provider_namespace }}"
+              destination:
+                name: host
+                namespace: "{{ provider_namespace }}"
+            map: 
+              network: 
+                name: rhv-provider-f8sst
+                namespace: "{{ provider_namespace }}"
+              storage: 
+                name: rhv-provider-kjc55
+                namespace: "{{ provider_namespace }}"
+            targetNamespace: "{{ provider_namespace }}"
+            vms: "{{ vms_for_plan_spec }}"
