@@ -1,0 +1,38 @@
+---
+- name: Create a Network mapping
+  hosts: localhost
+  vars:
+    provider_name: rhv-provider
+    provider_namespace: openshift-mtv
+    network_map_name: rhv-to-nfs
+
+  #This vars can be passed from variables in AAP
+  pre_tasks:
+    - name: Log in to RHV
+      ovirt.ovirt.ovirt_auth:
+        hostname: "{{ rhv_api }}"
+        username: "{{ rhv_user }}"
+        password: "{{ rhv_password }}"
+        insecure: true
+
+  tasks:
+    - name: Get info about network Domains
+      ovirt.ovirt.ovirt_network_info:
+        #pattern: cluster=MTV and network=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+        #                         (Search term which is accepted by oVirt/RHV search backend.)
+        auth: "{{ ovirt_auth }}"
+      register: network_domains
+    
+    - name: Show registered variable
+      ansible.builtin.debug:
+        var: network_domain
+
+    - name: Register the network domain
+      ansible.builtin.set_fact:
+        network_domain_id: "{{ network_domain.ovirt_network_domains | map(attribute='id') | list }}"
+
+    - name: Display network domain ID
+      ansible.builtin.debug:
+        var: network_domain_id
+
+
