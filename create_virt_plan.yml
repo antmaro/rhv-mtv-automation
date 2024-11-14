@@ -52,7 +52,7 @@
           apiVersion: forklift.konveyor.io/v1beta1
           kind: Plan
           metadata:
-            name: Plan-Ansible
+            name: plan-from-ansible
             namespace: "{{ provider_namespace }}"
             preserveClusterCpuModel: true 
           spec:
