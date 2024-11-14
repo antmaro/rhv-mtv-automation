@@ -1,5 +1,5 @@
 ---
-- name: Get all VMs ID from RHV
+- name: Create a Storage mapping
   hosts: localhost
   vars:
     provider_name: rhv-provider
@@ -15,65 +15,65 @@
         insecure: true
 
   tasks:
-    - name: Get VM information from RHV
-      ovirt.ovirt.ovirt_vm_info:
-        pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+    - name: Get info about Storage Domains
+      ovirt.ovirt.ovirt_domain_info:
+        #pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
-      register: rhv_vms
+      register: storage_domains
     
     - name: Show registered variable
       ansible.builtin.debug:
-        var: rhv_vms 
+        var: storage_domains
 
-    - name: Register all VM IDs
-      ansible.builtin.set_fact:
-        vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
+    # - name: Register all VM IDs
+    #   ansible.builtin.set_fact:
+    #     vm_ids: "{{ rhv_vms.ovirt_vms | map(attribute='id') | list }}"
 
-    - name: Register all VM names
-      ansible.builtin.set_fact:
-        vm_name: "{{ rhv_vms.ovirt_vms | map(attribute='name') | list }}"
+    # - name: Register all VM names
+    #   ansible.builtin.set_fact:
+    #     vm_name: "{{ rhv_vms.ovirt_vms | map(attribute='name') | list }}"
 
-    - name: Display VM IDs
-      ansible.builtin.debug:
-        var: vm_ids
+    # - name: Display VM IDs
+    #   ansible.builtin.debug:
+    #     var: vm_ids
   
-    - name: Prepare VMs for Plan spec
-      ansible.builtin.set_fact:
-        vms_for_plan_spec: "{{ vms_for_plan_spec | default([]) + [{'hooks': [], 'id': item}] }}"
-      loop: "{{ vm_ids }}"
+    # - name: Prepare VMs for Plan spec
+    #   ansible.builtin.set_fact:
+    #     vms_for_plan_spec: "{{ vms_for_plan_spec | default([]) + [{'hooks': [], 'id': item}] }}"
+    #   loop: "{{ vm_ids }}"
 
-    - name: Display vms for plan spec
-      ansible.builtin.debug:
-        var: vms_for_plan_spec
+    # - name: Display vms for plan spec
+    #   ansible.builtin.debug:
+    #     var: vms_for_plan_spec
 
-    # Get the info about Storage Domains
-    # - name:
-    - name: Create the RHV provider
-      redhat.openshift.k8s:
-        state: present
-        definition:
-          apiVersion: forklift.konveyor.io/v1beta1
-          kind: Plan
-          metadata:
-            name: plan-from-ansible
-            namespace: "{{ provider_namespace }}"
-            preserveClusterCpuModel: true 
-          spec:
-            warm: false 
-            provider:
-              source:
-                name: "{{ provider_name }}"
-                namespace: "{{ provider_namespace }}"
-              destination:
-                name: host
-                namespace: "{{ provider_namespace }}"
-            map: 
-              network: 
-                name: rhv-provider-f8sst
-                namespace: "{{ provider_namespace }}"
-              storage: 
-                name: rhv-provider-kjc55
-                namespace: "{{ provider_namespace }}"
-            targetNamespace: "{{ provider_namespace }}"
-            vms: "{{ vms_for_plan_spec }}"
+    # # Get the info about Storage Domains
+    # # - name:
+    # - name: Create the RHV provider
+    #   redhat.openshift.k8s:
+    #     state: present
+    #     definition:
+    #       apiVersion: forklift.konveyor.io/v1beta1
+    #       kind: Plan
+    #       metadata:
+    #         name: plan-from-ansible
+    #         namespace: "{{ provider_namespace }}"
+    #         preserveClusterCpuModel: true 
+    #       spec:
+    #         warm: false 
+    #         provider:
+    #           source:
+    #             name: "{{ provider_name }}"
+    #             namespace: "{{ provider_namespace }}"
+    #           destination:
+    #             name: host
+    #             namespace: "{{ provider_namespace }}"
+    #         map: 
+    #           network: 
+    #             name: rhv-provider-f8sst
+    #             namespace: "{{ provider_namespace }}"
+    #           storage: 
+    #             name: rhv-provider-kjc55
+    #             namespace: "{{ provider_namespace }}"
+    #         targetNamespace: "{{ provider_namespace }}"
+    #         vms: "{{ vms_for_plan_spec }}"
