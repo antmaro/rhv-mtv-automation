@@ -4,7 +4,7 @@
   vars:
     provider_name: rhv-provider
     provider_namespace: openshift-mtv
-    network_map_name: rhv-to-nfs
+    network_map_name: rhv-to-ocp
 
   #This vars can be passed from variables in AAP
   pre_tasks:
@@ -29,10 +29,31 @@
 
     - name: Register the network domain
       ansible.builtin.set_fact:
-        network_domain_id: "{{ network_domain.ovirt_network_domains | map(attribute='id') | list }}"
+        network_id: "{{ network_domain.ovirt_networks | map(attribute='id') | list }}"
 
     - name: Display network domain ID
       ansible.builtin.debug:
-        var: network_domain_id
+        var: network_id
 
-
+    - name: Create Network Map Object
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: forklift.konveyor.io/v1beta1
+          kind: NetworkMap
+          metadata:
+            name: "{{ networkmap_name }}"
+            namespace: openshift-mtv
+          spec:
+            map:
+              - destination:
+                  type: pod
+                source:
+                  id: "{{ network_id[0] }}"
+            provider:
+              destination:
+                name: host
+                namespace: openshift-mtv
+              source:
+                name: rhv-provider
+                namespace: openshift-mtv
