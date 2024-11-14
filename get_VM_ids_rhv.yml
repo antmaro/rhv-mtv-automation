@@ -31,4 +31,4 @@
       ansible.builtin.debug:
         var: vm_ids
     # Get the info about Storage Domains
-    - name:
+    # - name:
