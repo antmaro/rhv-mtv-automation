@@ -29,10 +29,10 @@
               createdForResourceType: providers
           type: Opaque
           stringData:
-            user: admin@internal
-            password: linux123
+            user: "{{ rhv_user }}"
+            password: "{{ rhv_password }}"
             insecureSkipVerify: "true"
-            url: 'https://infraneptune.ddns.net/ovirt-engine/api'
+            url: "{{ rhv_api }}"
 
     - name: Create the RHV provider
       redhat.openshift.k8s:
