@@ -4,7 +4,7 @@
   vars:
     provider_name: rhv-provider
     provider_namespace: openshift-mtv
-    network_map_name: rhv-to-ocp
+    network_map_name: rhv-network-map
 
   #This vars can be passed from variables in AAP
   pre_tasks:

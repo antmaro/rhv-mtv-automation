@@ -70,10 +70,10 @@
                 namespace: "{{ provider_namespace }}"
             map: 
               network: 
-                name: rhv-provider-f8sst
+                name: rhv-network-map
                 namespace: "{{ provider_namespace }}"
               storage: 
-                name: rhv-provider-kjc55
+                name: rhv-storage-map
                 namespace: "{{ provider_namespace }}"
             targetNamespace: "{{ provider_namespace }}"
             vms: "{{ vms_for_plan_spec }}"

@@ -4,7 +4,7 @@
   vars:
     provider_name: rhv-provider
     provider_namespace: openshift-mtv
-    storage_map_name: rhv-to-nfs
+    storage_map_name: rhv-storage-map
 
   #This vars can be passed from variables in AAP
   pre_tasks:
@@ -18,10 +18,10 @@
   tasks:
     - name: Get info about Storage Domains
       ovirt.ovirt.ovirt_storage_domain_info:
-        #pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+        pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
-      register: storage_domains
+      register: storage_domans
     
     - name: Show registered variable
       ansible.builtin.debug:
