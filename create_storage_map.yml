@@ -18,7 +18,7 @@
   tasks:
     - name: Get info about Storage Domains
       ovirt.ovirt.ovirt_storage_domain_info:
-        pattern: cluster=MTV and Storage=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
+        pattern: name=sd1 #<-- you can filter what VMs do you want to get filter by name, cluster, datacenter,SotrageDomain
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: storage_domains
@@ -49,7 +49,7 @@
               - destination:
                   storageClass: nfs-storage
                 source:
-                  id: "{{ storage_domain_id[1] }}"
+                  id: "{{ storage_domain_id }}"
               # You can also have multiple sources 
               # - destination:
               #     storageClass: nfs-storage
