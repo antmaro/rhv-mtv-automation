@@ -49,7 +49,7 @@
               - destination:
                   storageClass: nfs-storage
                 source:
-                  id: "{{ storage_domain_id }}"
+                  id: "{{ storage_domain_id[0] }}"
               # You can also have multiple sources 
               # - destination:
               #     storageClass: nfs-storage
