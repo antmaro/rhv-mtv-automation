@@ -7,6 +7,6 @@ The goal is to automate the following tasks:
 - [x] [Create the storage map](https://github.com/antmaro/rhv-mtv-automation/blob/main/create_storage_map.yml)
 - [x] [Create the network map](https://github.com/antmaro/rhv-mtv-automation/blob/main/create_network_map.yml)
 - [x] [Create the virt plan (providing the IDs of the VMs)](https://github.com/antmaro/rhv-mtv-automation/blob/main/create_virt_plan.yml)
-- [ ] Create the Migration manifest to run the plan
+- [x] Create the Migration manifest to run the plan
 - [ ] others ...
 
