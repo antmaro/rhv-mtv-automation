@@ -24,7 +24,7 @@
 
     - name: Get the ID for all the VMs
       ansible.builtin.uri:
-        url: "https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}"
+        url: "https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/workloads"
         method: GET
         headers: 
           Authorization: "Bearer {{ token }}"
