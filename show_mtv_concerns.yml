@@ -55,7 +55,7 @@
 
     - name: Update summary variable with task results
       set_fact:
-        summary: "{{ summary + [ { 'vm_id': item, 'response': concerns.results[index0].json.concerns } ] }}"
+        summary: "{{ summary + [ { 'VM Name': concerns.results[index0].json.name, 'response': concerns.results[index0].json.concerns } ] }}"
       loop: "{{ list_of_id_vm.json | map(attribute='id') }}"
       loop_control:
         index_var: index0
