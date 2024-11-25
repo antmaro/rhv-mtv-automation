@@ -33,7 +33,7 @@
 
     - name: Show VMs 
       ansible.builtin.debug:
-        msg: "{{ list_of_id_vm.json }}"
+        msg: "{{ list_of_id_vm.json | map(attribute='id') | list }}"
      
 
       
