@@ -1,0 +1,24 @@
+---
+# The command to get the concers for a given VM
+# curl -H "Authorization: Bearer $TOKEN" https://forklift-inventory-namespace-domain/providers/ovirt/provider_id/workloads/vm_id | jq .concerns
+
+- name: Show concerns from forklift MTV
+  hosts: localhost
+  vars:
+    provider_name: rhv-provider
+    token: sha256~HTVKcp8K8y665310bsCxI-2S636aCwuHBo_07W5w3NM # Obtain from oc whoami -t)
+  tasks:
+
+    - name: Get the UID of the rhv-provider
+      ansible.builtin.uri:
+        url: 'https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt'
+        method: GET
+        headers: "Bearer {{ token }}"
+      register: provider_uid
+
+    - name: Show provider UID
+      ansible.builtin.debug:
+        name: "{{ provider_uid }}"
+
+      
+
