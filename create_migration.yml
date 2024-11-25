@@ -1,4 +1,7 @@
 ---
+## MAKE sure you remove the Migration object migration-rhv-to-ocp before 
+## otherwise this play won't work
+## To remove it: oc delete -m openshift-mtv migration/migration-rhv-to-ocp
 - name: Get all VMs ID from RHV
   hosts: localhost
   vars:
