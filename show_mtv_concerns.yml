@@ -42,7 +42,24 @@
         headers: 
           Authorization: "Bearer {{ token }}"
         validate_certs: false
-      loop: "{{ list_of_id_vm.json | map(attribute='id') | list }}"
+      loop: "{{ list_of_id_vm.json | map(attribute='id') }}"
+      register: concerns 
 
-      
+    - name: Debug variable CONCERNS
+      ansible.builtin.debug:
+        msg: "{{ concerns.results[0].json.concerns  }}"
 
+    - name: Initialize summary variable
+      set_fact:
+        summary: []
+
+    - name: Update summary variable with task results
+      set_fact:
+        summary: "{{ summary + [ { 'vm_id': item, 'response': concerns.results[index0].json.concerns } ] }}"
+      loop: "{{ list_of_id_vm.json | map(attribute='id') }}"
+      loop_control:
+        index_var: index0
+
+    - name: Display summary
+      debug:
+        var: summary 
