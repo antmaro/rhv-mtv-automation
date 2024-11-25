@@ -13,7 +13,8 @@
       ansible.builtin.uri:
         url: 'https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt'
         method: GET
-        headers: "Bearer {{ token }}"
+        headers: 
+          Authorization: "Bearer {{ token }}"
       register: provider_uid
 
     - name: Show provider UID
