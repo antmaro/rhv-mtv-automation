@@ -34,7 +34,15 @@
     - name: Show VMs 
       ansible.builtin.debug:
         msg: "{{ list_of_id_vm.json | map(attribute='id') | list }}"
-     
+
+    - name: Get all the concerns for each VM
+      ansible.builtin.uri:
+        url: "https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/workloads/{{ item }}"
+        method: GET
+        headers: 
+          Authorization: "Bearer {{ token }}"
+        validate_certs: false
+      loop: "{{ list_of_id_vm.json | map(attribute='id') | list }}"
 
       
 
