@@ -20,7 +20,7 @@
 
     - name: Show provider UID
       ansible.builtin.debug:
-        msg: "{{ provider_uid }}"
+        msg: "{{ provider_uid.json.id }}"
 
       
 
