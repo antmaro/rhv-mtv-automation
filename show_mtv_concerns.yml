@@ -62,4 +62,4 @@
 
     - name: Display summary
       debug:
-        var: summary 
+        var: summary
