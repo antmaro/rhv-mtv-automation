@@ -1,6 +1,7 @@
 ---
 # The command to get the concers for a given VM
 # curl -H "Authorization: Bearer $TOKEN" https://forklift-inventory-namespace-domain/providers/ovirt/provider_id/workloads/vm_id | jq .concerns
+# Info about what concerns you have https://github.com/kubev2v/forklift-validation
 
 - name: Show concerns from forklift MTV
   hosts: localhost
