@@ -31,10 +31,10 @@
           Authorization: "Bearer {{ token }}"
         validate_certs: false
       register: list_of_id_vm
-
-    - name: Show VMs 
-      ansible.builtin.debug:
-        msg: "{{ list_of_id_vm.json | map(attribute='id') | list }}"
+    
+    - name: Set fact with filter VMs
+      ansible.builtin.set_fact:
+        filtered_vm_list: "{{ list_of_id_vm.json | selectattr('name', '!=', 'HostedEngine') }}"
 
     - name: Get all the concerns for each VM
       ansible.builtin.uri:
