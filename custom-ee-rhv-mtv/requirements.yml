@@ -8,4 +8,4 @@ collections:
   - name: ansible.controller
   - name: community.crypto
   - name: ansible.posix
-  - name: ovirt.ovirt 
+  - name: ovirt.ovirt

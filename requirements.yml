@@ -1,6 +1,6 @@
 ---
 collections:
-    - name: ovirt.ovirt
-    - name: kubernetes.core
-    - name: community.general
+  - name: ovirt.ovirt
+  - name: kubernetes.core
+  - name: community.general
     #- name: redhat.openshift

@@ -22,7 +22,7 @@
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: network_domain
-    
+
     - name: Show registered variable
       ansible.builtin.debug:
         var: network_domain
@@ -36,7 +36,7 @@
         var: network_id
 
     - name: Create Network Map Object
-      redhat.openshift.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1

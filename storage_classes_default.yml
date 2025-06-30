@@ -1,13 +1,13 @@
 ---
 - name: Manage Kubernetes Storage Classes
   hosts: localhost
-  gather_facts: no
-  
+  gather_facts: false
+
   module_defaults:
     group/kubernetes.core.k8s:
       host: https://api.ocp4.example.com:6443
       validate_certs: false
-  
+
   tasks:
     - name: Gather Kubernetes storage classes
       kubernetes.core.k8s_info:
@@ -21,11 +21,11 @@
     - name: debug variable
       ansible.builtin.debug:
         msg: "{{ storage_classes }}"
-    
+
     - name: Initialize list variable
       ansible.builtin.set_fact:
         current_default_sc: []
-   
+
     - name: Check for existing default storage class
       ansible.builtin.set_fact:
         current_default_sc: "{{ current_default_sc + [item.metadata.name] }}"
@@ -36,11 +36,11 @@
 
     - name: Debug current_default_sc
       ansible.builtin.debug:
-        msg: "{{ current_default_sc }}" 
+        msg: "{{ current_default_sc }}"
 
     - name: Evaluate if the play should end becasue cepth is the only storage class by default
       when: current_default_sc | length == 1 and current_default_sc[0] == "ocs-external-storagecluster-ceph-rbd"
-      meta: end_play
+      ansible.builtin.meta: end_play
 
     - name: Remove default from all other storage classes
       kubernetes.core.k8s:
@@ -53,7 +53,7 @@
             annotations:
               storageclass.kubernetes.io/is-default-class: "false"
       loop: "{{ storage_classes }}"
- 
+
     - name: Set Ceph as the default storage class
       kubernetes.core.k8s:
         api_version: storage.k8s.io/v1

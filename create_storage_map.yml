@@ -22,7 +22,7 @@
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: storage_domains
-    
+
     - name: Show registered variable
       ansible.builtin.debug:
         var: storage_domains
@@ -36,7 +36,7 @@
         var: storage_domain_id
 
     - name: Create or update a StorageMap
-      redhat.openshift.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1
@@ -50,11 +50,6 @@
                   storageClass: nfs-storage
                 source:
                   id: "{{ storage_domain_id[0] }}"
-              # You can also have multiple sources 
-              # - destination:
-              #     storageClass: nfs-storage
-              #   source:
-              #     id: "{{ datastore_id }}"
             provider:
               destination:
                 name: host

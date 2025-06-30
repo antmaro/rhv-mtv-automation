@@ -6,9 +6,8 @@
     provider_namespace: openshift-mtv
 
   tasks:
-
     - name: Create a Secret manifest for the RHV provider
-      redhat.openshift.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: v1
@@ -27,7 +26,7 @@
             url: "{{ rhv_api }}"
 
     - name: Create the RHV provider
-      redhat.openshift.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1

@@ -8,13 +8,12 @@
     provider_name: rhv-provider
     provider_namespace: openshift-mtv
     plan_name: plan-from-ansible
-  
-  tasks:
 
+  tasks:
     # Get the info about Storage Domains
     # - name:
     - name: Create the RHV provider
-      redhat.openshift.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1
@@ -26,6 +25,3 @@
             plan:
               name: "{{ plan_name }}"
               namespace: "{{ provider_namespace }}"
-            # cutover: <optional_cutover_time>
-
-        
