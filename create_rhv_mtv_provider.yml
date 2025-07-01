@@ -6,7 +6,6 @@
     provider_namespace: openshift-mtv
 
   tasks:
-
     - name: Create a Secret manifest for the RHV provider
       redhat.openshift.k8s:
         state: present

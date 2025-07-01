@@ -8,13 +8,12 @@
     provider_name: rhv-provider
     token: sha256~HTVKcp8K8y665310bsCxI-2S636aCwuHBo_07W5w3NM # Obtain from oc whoami -t)
   tasks:
-
     - name: Get the UID of the rhv-provider
       ansible.builtin.uri:
-        url: 'https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt'
+        url: https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt
         method: GET
-        headers: 
-          Authorization: "Bearer {{ token }}"
+        headers:
+          Authorization: Bearer {{ token }}
         validate_certs: false
       register: provider_uid
 
@@ -24,42 +23,42 @@
 
     - name: Get the ID for all the VMs
       ansible.builtin.uri:
-        url: "https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/vms"
+        url: https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/vms
         method: GET
-        headers: 
-          Authorization: "Bearer {{ token }}"
+        headers:
+          Authorization: Bearer {{ token }}
         validate_certs: false
       register: list_of_id_vm
-    
+
     - name: Set fact with filter VMs
       ansible.builtin.set_fact:
         filtered_vm_list: "{{ list_of_id_vm.json | selectattr('name', '!=', 'HostedEngine') }}"
 
     - name: Get all the concerns for each VM
       ansible.builtin.uri:
-        url: "https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/workloads/{{ item }}"
+        url: https://forklift-inventory-openshift-mtv.apps.ocp4.example.com/providers/ovirt/{{ provider_uid.json[0].id }}/workloads/{{ item }}
         method: GET
-        headers: 
-          Authorization: "Bearer {{ token }}"
+        headers:
+          Authorization: Bearer {{ token }}
         validate_certs: false
       loop: "{{ list_of_id_vm.json | map(attribute='id') }}"
-      register: concerns 
+      register: concerns
 
     - name: Debug variable CONCERNS
       ansible.builtin.debug:
         msg: "{{ concerns.results[0].json.concerns  }}"
 
     - name: Initialize summary variable
-      set_fact:
+      ansible.builtin.set_fact:
         summary: []
 
     - name: Update summary variable with task results
-      set_fact:
-        summary: "{{ summary + [ { 'VM Name': concerns.results[index0].json.name, 'response': concerns.results[index0].json.concerns } ] }}"
       loop: "{{ list_of_id_vm.json | map(attribute='id') }}"
       loop_control:
         index_var: index0
+      ansible.builtin.set_fact:
+        summary: "{{ summary + [ { 'VM Name': concerns.results[index0].json.name, 'response': concerns.results[index0].json.concerns } ] }}"
 
     - name: Display summary
-      debug:
+      ansible.builtin.debug:
         var: summary

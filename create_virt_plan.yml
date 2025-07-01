@@ -21,10 +21,10 @@
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: rhv_vms
-    
+
     - name: Show registered variable
       ansible.builtin.debug:
-        var: rhv_vms 
+        var: rhv_vms
 
     - name: Register all VM IDs
       ansible.builtin.set_fact:
@@ -37,7 +37,7 @@
     - name: Display VM IDs
       ansible.builtin.debug:
         var: vm_ids
-  
+
     - name: Prepare VMs for Plan spec
       ansible.builtin.set_fact:
         vms_for_plan_spec: "{{ vms_for_plan_spec | default([]) + [{'hooks': [], 'id': item}] }}"
@@ -58,9 +58,9 @@
           metadata:
             name: plan-from-ansible
             namespace: "{{ provider_namespace }}"
-            preserveClusterCpuModel: true 
+            preserveClusterCpuModel: true
           spec:
-            warm: false 
+            warm: false
             provider:
               source:
                 name: "{{ provider_name }}"
@@ -68,11 +68,11 @@
               destination:
                 name: host
                 namespace: "{{ provider_namespace }}"
-            map: 
-              network: 
+            map:
+              network:
                 name: rhv-network-map
                 namespace: "{{ provider_namespace }}"
-              storage: 
+              storage:
                 name: rhv-storage-map
                 namespace: "{{ provider_namespace }}"
             targetNamespace: "{{ provider_namespace }}"

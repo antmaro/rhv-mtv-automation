@@ -22,7 +22,7 @@
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: network_domain
-    
+
     - name: Show registered variable
       ansible.builtin.debug:
         var: network_domain

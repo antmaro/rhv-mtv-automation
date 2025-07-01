@@ -22,7 +22,7 @@
         #                         (Search term which is accepted by oVirt/RHV search backend.)
         auth: "{{ ovirt_auth }}"
       register: storage_domains
-    
+
     - name: Show registered variable
       ansible.builtin.debug:
         var: storage_domains
@@ -50,11 +50,6 @@
                   storageClass: nfs-storage
                 source:
                   id: "{{ storage_domain_id[0] }}"
-              # You can also have multiple sources 
-              # - destination:
-              #     storageClass: nfs-storage
-              #   source:
-              #     id: "{{ datastore_id }}"
             provider:
               destination:
                 name: host
