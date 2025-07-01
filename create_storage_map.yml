@@ -36,7 +36,7 @@
         var: storage_domain_id
 
     - name: Create or update a StorageMap
-      kubernetes.core.k8s:
+      redhat.openshift.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1

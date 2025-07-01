@@ -50,7 +50,7 @@
     # Get the info about Storage Domains
     # - name:
     - name: Create the RHV provider
-      kubernetes.core.k8s:
+      redhat.openshift.k8s:
         state: present
         definition:
           apiVersion: forklift.konveyor.io/v1beta1
